@@ -184,7 +184,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
+
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -196,6 +196,61 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f3xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles DMA1 channel6 global interrupt.
+  */
+void DMA1_Channel6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 0 */
+	if (LL_DMA_IsActiveFlag_TC6(DMA1)) {
+			USART2_ProcessDmaData();
+			LL_DMA_ClearFlag_TC6(DMA1);
+	}
+	if (LL_DMA_IsActiveFlag_HT6(DMA1)) {
+				USART2_ProcessDmaData();
+				LL_DMA_ClearFlag_HT6(DMA1);
+		}
+  /* USER CODE END DMA1_Channel6_IRQn 0 */
+
+  /* USER CODE BEGIN DMA1_Channel6_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel6_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM2 global interrupt.
+  */
+void TIM2_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM2_IRQn 0 */
+	if (LL_TIM_IsActiveFlag_UPDATE(TIM2)) {
+
+		MAIN_TIM2_Callback();
+		LL_TIM_ClearFlag_UPDATE(TIM2);
+		    }
+  /* USER CODE END TIM2_IRQn 0 */
+  /* USER CODE BEGIN TIM2_IRQn 1 */
+
+  /* USER CODE END TIM2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXT line 26.
+  */
+void USART2_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART2_IRQn 0 */
+
+	if(LL_USART_IsActiveFlag_IDLE(USART2)){
+			USART2_ProcessDmaData();
+			LL_USART_ClearFlag_IDLE(USART2);
+	}
+  /* USER CODE END USART2_IRQn 0 */
+  /* USER CODE BEGIN USART2_IRQn 1 */
+
+  /* USER CODE END USART2_IRQn 1 */
+}
 
 /* USER CODE BEGIN 1 */
 
